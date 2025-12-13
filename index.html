@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Neon Snake x AI Tunes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=VT323&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --cyan: #00ffff;
+        --magenta: #ff00ff;
+        --yellow: #ffff00;
+        --black: #050505;
+      }
+
+      body {
+        font-family: 'Share Tech Mono', monospace;
+        background-color: var(--black);
+        color: var(--cyan);
+        overflow-x: hidden;
+      }
+
+      h1, h2, h3, .brand-font {
+        font-family: 'Orbitron', sans-serif;
+        text-transform: uppercase;
+      }
+
+      /* CRT Effect Layer */
+      .crt::before {
+        content: " ";
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+        z-index: 50;
+        background-size: 100% 2px, 3px 100%;
+        pointer-events: none;
+      }
+
+      /* Screen Flicker */
+      .crt::after {
+        content: " ";
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background: rgba(18, 16, 16, 0.1);
+        opacity: 0;
+        z-index: 50;
+        pointer-events: none;
+        animation: flicker 0.15s infinite;
+      }
+
+      @keyframes flicker {
+        0% { opacity: 0.02795 }
+        5% { opacity: 0.03425 }
+        10% { opacity: 0.02561 }
+        15% { opacity: 0.04237 }
+        20% { opacity: 0.03213 }
+        25% { opacity: 0.04895 }
+        30% { opacity: 0.03578 }
+        35% { opacity: 0.06786 }
+        40% { opacity: 0.03463 }
+        45% { opacity: 0.06345 }
+        50% { opacity: 0.02347 }
+        55% { opacity: 0.03456 }
+        60% { opacity: 0.04234 }
+        65% { opacity: 0.03456 }
+        70% { opacity: 0.04567 }
+        75% { opacity: 0.03456 }
+        80% { opacity: 0.05678 }
+        85% { opacity: 0.03456 }
+        90% { opacity: 0.04567 }
+        95% { opacity: 0.03456 }
+        100% { opacity: 0.02795 }
+      }
+
+      /* Glitch Text Effect */
+      .glitch-text {
+        position: relative;
+        color: var(--cyan);
+      }
+      
+      .glitch-text::before,
+      .glitch-text::after {
+        content: attr(data-text);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--black);
+      }
+      
+      .glitch-text::before {
+        left: 2px;
+        text-shadow: -1px 0 var(--magenta);
+        clip: rect(24px, 550px, 90px, 0);
+        animation: glitch-anim-2 3s infinite linear alternate-reverse;
+      }
+      
+      .glitch-text::after {
+        left: -2px;
+        text-shadow: -1px 0 var(--yellow);
+        clip: rect(85px, 550px, 140px, 0);
+        animation: glitch-anim 2.5s infinite linear alternate-reverse;
+      }
+
+      @keyframes glitch-anim {
+        0% { clip: rect(14px, 9999px, 127px, 0); }
+        20% { clip: rect(66px, 9999px, 86px, 0); }
+        40% { clip: rect(4px, 9999px, 148px, 0); }
+        60% { clip: rect(104px, 9999px, 32px, 0); }
+        80% { clip: rect(29px, 9999px, 86px, 0); }
+        100% { clip: rect(113px, 9999px, 5px, 0); }
+      }
+
+      @keyframes glitch-anim-2 {
+        0% { clip: rect(126px, 9999px, 5px, 0); }
+        20% { clip: rect(80px, 9999px, 20px, 0); }
+        40% { clip: rect(27px, 9999px, 14px, 0); }
+        60% { clip: rect(122px, 9999px, 52px, 0); }
+        80% { clip: rect(42px, 9999px, 60px, 0); }
+        100% { clip: rect(96px, 9999px, 82px, 0); }
+      }
+
+      /* Cyber Button */
+      .cyber-btn {
+        position: relative;
+        background: transparent;
+        border: 1px solid var(--cyan);
+        color: var(--cyan);
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        transition: all 0.1s;
+        box-shadow: 4px 4px 0 var(--magenta);
+        clip-path: polygon(0 0, 100% 0, 100% 85%, 95% 100%, 0 100%);
+      }
+
+      .cyber-btn:hover {
+        background: var(--cyan);
+        color: var(--black);
+        box-shadow: -4px 4px 0 var(--magenta);
+        transform: translate(-1px, -1px);
+      }
+
+      .cyber-btn:active {
+        transform: translate(2px, 2px);
+        box-shadow: 0 0 0 var(--magenta);
+      }
+
+      /* Scrollbar */
+      ::-webkit-scrollbar {
+        width: 12px;
+        background: #000;
+        border-left: 1px solid #333;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--cyan);
+        border: 2px solid #000;
+        box-shadow: inset 0 0 0 2px var(--magenta);
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: var(--magenta);
+      }
+
+      /* Range Slider */
+      input[type=range] {
+        -webkit-appearance: none;
+        background: transparent;
+      }
+      input[type=range]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        height: 16px;
+        width: 16px;
+        background: var(--cyan);
+        border: 2px solid var(--black);
+        box-shadow: 2px 2px 0 var(--magenta);
+        cursor: pointer;
+        margin-top: -6px;
+      }
+      input[type=range]::-webkit-slider-runnable-track {
+        width: 100%;
+        height: 4px;
+        background: #333;
+        border: 1px solid #555;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.2.3",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "lucide-react": "https://esm.sh/lucide-react@^0.561.0"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
