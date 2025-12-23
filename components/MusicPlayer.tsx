@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Play, Pause, SkipBack, SkipForward, Volume2, VolumeX, Activity, Cpu } from 'lucide-react';
 import { TRACKS } from '../constants';
+import { sfx } from '../utils/sfx';
 
 interface MusicPlayerProps {
   currentTrackIndex: number;
@@ -35,15 +36,20 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ currentTrackIndex, setCurrent
     }
   }, [volume, isMuted]);
 
-  const togglePlay = () => setIsPlaying(!isPlaying);
+  const togglePlay = () => {
+    sfx.ui();
+    setIsPlaying(!isPlaying);
+  };
 
   const playNext = () => {
+    sfx.ui();
     setCurrentTrackIndex((currentTrackIndex + 1) % TRACKS.length);
     setProgress(0);
     setIsPlaying(true);
   };
 
   const playPrev = () => {
+    sfx.ui();
     setCurrentTrackIndex((currentTrackIndex - 1 + TRACKS.length) % TRACKS.length);
     setProgress(0);
     setIsPlaying(true);
@@ -98,7 +104,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ currentTrackIndex, setCurrent
         </div>
       </div>
 
-      {/* Progress Bar - Raw Style */}
+      {/* Progress Bar */}
       <div className="mb-6 relative group">
          <div className="flex justify-between text-[10px] text-gray-500 font-mono mb-1">
             <span>00:00</span>
@@ -112,28 +118,23 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ currentTrackIndex, setCurrent
             onChange={handleProgressChange}
             className="w-full h-6 appearance-none bg-[#111] border border-[#333] focus:outline-none focus:border-[#0ff] transition-colors"
           />
-          {/* Custom fill imitation using styles is hard with range, relying on global CSS thumb styling */}
       </div>
 
       {/* Controls Container */}
       <div className="grid grid-cols-5 gap-2">
-           {/* Prev */}
            <button onClick={playPrev} className="cyber-btn h-12 flex items-center justify-center hover:bg-[#0ff] hover:text-black">
                <SkipBack size={20} />
            </button>
 
-           {/* Play/Pause - Larger */}
            <button onClick={togglePlay} className="col-span-2 cyber-btn h-12 flex items-center justify-center bg-[#0ff]/10 border-[#0ff] text-white">
                {isPlaying ? <Pause size={24} fill="currentColor" /> : <Play size={24} fill="currentColor" />}
            </button>
 
-           {/* Next */}
            <button onClick={playNext} className="cyber-btn h-12 flex items-center justify-center hover:bg-[#0ff] hover:text-black">
                <SkipForward size={20} />
            </button>
 
-           {/* Volume Toggle */}
-           <button onClick={() => setIsMuted(!isMuted)} className="cyber-btn h-12 flex items-center justify-center text-gray-400 hover:text-white">
+           <button onClick={() => { sfx.ui(); setIsMuted(!isMuted); }} className="cyber-btn h-12 flex items-center justify-center text-gray-400 hover:text-white">
                {isMuted || volume === 0 ? <VolumeX size={20} /> : <Volume2 size={20} />}
            </button>
       </div>

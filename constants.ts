@@ -26,5 +26,5 @@ export const TRACKS: Track[] = [
 
 export const GRID_SIZE = 20;
 export const CELL_SIZE = 25;
-export const INITIAL_SNAKE_SPEED = 150;
-export const SPEED_INCREMENT = 2;
+export const INITIAL_SNAKE_SPEED = 250; // Slower movement (was 150)
+export const SPEED_INCREMENT = 3;
