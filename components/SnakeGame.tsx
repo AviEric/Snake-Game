@@ -189,10 +189,9 @@ const SnakeGame: React.FC = () => {
   return (
     <div className="flex flex-col h-full w-full bg-black select-none overflow-hidden relative font-mono">
       
-      {/* TELEMETRY HUD - FIXED AT TOP */}
+      {/* TELEMETRY HUD */}
       <header className="relative w-full p-4 sm:p-6 z-30 flex justify-between items-center bg-black border-b border-[#1a1a1a] shadow-[0_4px_20px_rgba(0,0,0,0.8)]">
           <div className="bg-black/40 border-l-4 border-[#0ff] p-3 backdrop-blur-md shadow-[4px_4px_0_rgba(0,0,0,0.6)]">
-              {/* BRANDING HEADER - FORCED TO ONE LINE */}
               <div className="text-[10px] text-[#ff00ff] font-bold tracking-[2px] sm:tracking-[4px] uppercase opacity-80 mb-1 animate-pulse whitespace-nowrap">
                 AVI ERIC ABHISHEK GAMES
               </div>
